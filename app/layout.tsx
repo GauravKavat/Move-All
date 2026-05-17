@@ -11,8 +11,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: {
-    default: "weMOVEitALL — Enterprise Logistics Platform",
-    template: "%s | weMOVEitALL",
+    default: "Move All",
+    template: "%s | Move All",
   },
   description:
     "Multi-tenant B2B logistics SaaS. Automate fulfillment routing, exception processing, and courier operations with sub-millisecond API overhead.",
