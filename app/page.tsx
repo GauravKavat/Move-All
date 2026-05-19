@@ -85,7 +85,7 @@ export default function HeroPage() {
           {Array.from({ length: 4000 }).map((_, i) => (
             <div 
               key={i}
-              className="w-[24px] h-[24px] border-r border-b border-black/[0.04] dark:border-white/[0.04] hover:bg-black/20 dark:hover:bg-[#f37a2a]/30 transition-colors duration-300 hover:duration-0"
+              className="w-[24px] h-[24px] border-r border-b border-black/[0.04] dark:border-white/[0.04] hover:bg-[#f37a2a]/15 dark:hover:bg-[#f37a2a]/40 transition-colors duration-300 hover:duration-0"
             />
           ))}
         </div>
