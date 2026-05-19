@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { ArrowRight, Package, Truck, CheckCircle2, Shield, Globe, MapPin, Search, BarChart3, Clock, RotateCcw, Plus, AlertCircle } from "lucide-react";
@@ -78,17 +78,11 @@ export default function HeroPage() {
         {/* Ambient Lighting & Glowing Spine */}
         <div className="absolute inset-0 bg-[#050505] hidden dark:block" />
         
-        {/* Interactive Box-Trail Grid */}
-        <div 
-          className="absolute inset-0 flex flex-wrap content-start [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-auto"
-        >
-          {Array.from({ length: 4000 }).map((_, i) => (
-            <div 
-              key={i}
-              className="w-[24px] h-[24px] border-r border-b border-black/[0.04] dark:border-white/[0.04] hover:bg-[#f37a2a]/15 dark:hover:bg-[#f37a2a]/40 transition-colors duration-300 hover:duration-0"
-            />
-          ))}
-        </div>
+        {/* Static Grid Lines (Highly Performant) */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+
+        {/* Interactive Box-Trail Grid (O(1) DOM nodes) */}
+        <InteractiveGrid />
         
         {/* The Central Beam */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-[#f37a2a]/30 to-transparent" />
@@ -508,6 +502,63 @@ export default function HeroPage() {
         </div>
       </footer>
 
+    </div>
+  );
+}
+
+function InteractiveGrid() {
+  const [trail, setTrail] = useState<{id: number, x: number, y: number}[]>([]);
+  const trailRef = useRef<{id: number, x: number, y: number}[]>([]);
+  const idCounter = useRef(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = Math.floor((e.clientX - rect.left) / 24) * 24;
+    const y = Math.floor((e.clientY - rect.top) / 24) * 24;
+    
+    const currentTrail = trailRef.current;
+    if (currentTrail.length === 0 || currentTrail[currentTrail.length - 1].x !== x || currentTrail[currentTrail.length - 1].y !== y) {
+      const newId = idCounter.current++;
+      const newBox = { id: newId, x, y };
+      
+      const newTrail = [...currentTrail, newBox];
+      trailRef.current = newTrail;
+      setTrail(newTrail);
+      
+      setTimeout(() => {
+        trailRef.current = trailRef.current.filter(b => b.id !== newId);
+        setTrail([...trailRef.current]);
+      }, 300); // 300ms fade out duration ensures max ~3 boxes
+    }
+  };
+
+  return (
+    <div 
+      className="absolute inset-0 pointer-events-auto z-0 overflow-hidden [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" 
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => { trailRef.current = []; setTrail([]); }}
+    >
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes fadeOutBox {
+          0% { opacity: 1; }
+          100% { opacity: 0; }
+        }
+        .animate-trail-box {
+          animation: fadeOutBox 300ms ease-out forwards;
+        }
+      `}} />
+      {trail.map(box => (
+        <div 
+          key={box.id}
+          className="absolute bg-[#f37a2a]/20 dark:bg-[#f37a2a]/40 animate-trail-box pointer-events-none"
+          style={{
+            left: box.x,
+            top: box.y,
+            width: 24,
+            height: 24
+          }}
+        />
+      ))}
     </div>
   );
 }
