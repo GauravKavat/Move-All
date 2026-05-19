@@ -1,6 +1,20 @@
+"use client";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
 export default function AdminSettingsPage() {
+  const handleSave = (section: string) => {
+    toast.success(`${section} settings saved successfully.`);
+  };
+
   return (
-    <div className="space-y-4 w-full mx-auto">
+    <div className="space-y-6 w-full mx-auto pb-10">
       <div>
         <h1 className="text-2xl font-bold text-[#111827] dark:text-white">Admin Settings</h1>
         <p className="text-sm text-[#64748b] dark:text-[#94a3b8] mt-1">
@@ -8,62 +22,120 @@ export default function AdminSettingsPage() {
         </p>
       </div>
 
-      <div className="bg-white dark:bg-[#1e212b] rounded-xl border border-gray-200 dark:border-[#2a2e3d] shadow-sm overflow-hidden animate-pulse">
-        <div className="flex border-b border-gray-200 dark:border-[#2a2e3d]">
-          {/* Tabs skeleton */}
-          <div className="px-6 py-4 border-b-2 border-gray-300 dark:border-gray-500 w-32">
-            <div className="h-4 bg-gray-200 dark:bg-[#2a2e3d] rounded w-full"></div>
-          </div>
-          <div className="px-6 py-4 w-32">
-            <div className="h-4 bg-gray-100 dark:bg-[#2a2e3d]/50 rounded w-3/4"></div>
-          </div>
-          <div className="px-6 py-4 w-32">
-            <div className="h-4 bg-gray-100 dark:bg-[#2a2e3d]/50 rounded w-4/5"></div>
-          </div>
-        </div>
+      <Tabs defaultValue="general" className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="general">General</TabsTrigger>
+          <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+        </TabsList>
 
-        <div className="p-5 space-y-6">
-          {/* Section 1 */}
-          <div>
-            <div className="h-5 bg-gray-200 dark:bg-[#2a2e3d] rounded w-48 mb-4"></div>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <div className="h-3 bg-gray-200 dark:bg-[#2a2e3d] rounded w-24 mb-2"></div>
-                  <div className="h-10 bg-gray-100 dark:bg-[#16181d] border border-gray-200 dark:border-[#2a2e3d] rounded-lg w-full"></div>
+        <TabsContent value="general">
+          <Card>
+            <CardHeader>
+              <CardTitle>Platform Configuration</CardTitle>
+              <CardDescription>
+                Manage basic settings for the logistics platform.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="platformName">Platform Name</Label>
+                  <Input id="platformName" defaultValue="Move All Logistics" />
                 </div>
-                <div>
-                  <div className="h-3 bg-gray-200 dark:bg-[#2a2e3d] rounded w-32 mb-2"></div>
-                  <div className="h-10 bg-gray-100 dark:bg-[#16181d] border border-gray-200 dark:border-[#2a2e3d] rounded-lg w-full"></div>
+                <div className="space-y-2">
+                  <Label htmlFor="supportEmail">Support Email</Label>
+                  <Input id="supportEmail" defaultValue="support@moveall.com" type="email" />
                 </div>
               </div>
-            </div>
-          </div>
+              <div className="space-y-2">
+                <Label htmlFor="defaultCurrency">Default Currency</Label>
+                <Input id="defaultCurrency" defaultValue="INR (₹)" />
+              </div>
+            </CardContent>
+            <CardFooter className="border-t pt-6 flex justify-end">
+              <Button onClick={() => handleSave("General")}>Save Changes</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
 
-          <div className="h-px w-full bg-gray-200 dark:bg-[#2a2e3d]"></div>
-
-          {/* Section 2 (Toggles) */}
-          <div>
-            <div className="h-5 bg-gray-200 dark:bg-[#2a2e3d] rounded w-40 mb-4"></div>
-            <div className="space-y-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-center justify-between">
-                  <div>
-                    <div className="h-4 bg-gray-200 dark:bg-[#2a2e3d] rounded w-48 mb-1.5"></div>
-                    <div className="h-3 bg-gray-100 dark:bg-[#2a2e3d]/50 rounded w-64"></div>
-                  </div>
-                  <div className="w-11 h-6 bg-gray-200 dark:bg-[#2a2e3d] rounded-full"></div>
+        <TabsContent value="security">
+          <Card>
+            <CardHeader>
+              <CardTitle>Security Settings</CardTitle>
+              <CardDescription>
+                Configure access controls and authentication requirements.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between space-x-4">
+                <div className="space-y-1">
+                  <Label className="text-base">Two-Factor Authentication (2FA)</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Require all admin users to enable 2FA for their accounts.
+                  </p>
                 </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="pt-4 flex justify-end gap-3">
-             <div className="h-10 w-24 bg-gray-100 dark:bg-[#2a2e3d] rounded-lg"></div>
-             <div className="h-10 w-32 bg-gray-200 dark:bg-[#3a3f58] rounded-lg"></div>
-          </div>
-        </div>
-      </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between space-x-4">
+                <div className="space-y-1">
+                  <Label className="text-base">Session Timeout</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Automatically log out inactive users after 30 minutes.
+                  </p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+            </CardContent>
+            <CardFooter className="border-t pt-6 flex justify-end">
+              <Button onClick={() => handleSave("Security")}>Update Security</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="notifications">
+          <Card>
+            <CardHeader>
+              <CardTitle>Notification Preferences</CardTitle>
+              <CardDescription>
+                Choose what events trigger system-wide alerts.
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="flex items-center justify-between space-x-4">
+                <div className="space-y-1">
+                  <Label className="text-base">New Tenant Registration</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Receive an alert when a new client signs up.
+                  </p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between space-x-4">
+                <div className="space-y-1">
+                  <Label className="text-base">Critical System Errors</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Get immediately notified for API or courier downtime.
+                  </p>
+                </div>
+                <Switch defaultChecked />
+              </div>
+              <div className="flex items-center justify-between space-x-4">
+                <div className="space-y-1">
+                  <Label className="text-base">High Volume Escalations</Label>
+                  <p className="text-sm text-muted-foreground">
+                    Alert when pending escalations exceed 100.
+                  </p>
+                </div>
+                <Switch />
+              </div>
+            </CardContent>
+            <CardFooter className="border-t pt-6 flex justify-end">
+              <Button onClick={() => handleSave("Notification")}>Save Preferences</Button>
+            </CardFooter>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

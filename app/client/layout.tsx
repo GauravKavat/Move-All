@@ -18,7 +18,8 @@ import {
   Search,
 } from 'lucide-react';
 import { toast } from "sonner";
-import { ComingSoonDialog } from '@/components/coming-soon-dialog';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
 import { useMemo, useState } from 'react';
 import { ThemeTogglerButton } from '@/components/animate-ui/components/buttons/theme-toggler';
 
@@ -67,25 +68,43 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
 
           <div className="relative hidden flex-1 lg:block ml-2">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8] dark:text-[#64748b]" />
-            <input
+            <Input
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Search orders, shipments, pickups, RTO, exceptions, couriers..."
-              className="h-11 w-full rounded-lg border-none bg-[#f3f4f6] dark:bg-[#16181d] pl-10 pr-4 text-sm text-[#1f2937] dark:text-white outline-none transition focus:ring-2 focus:ring-[#f37a2a]/20"
+              className="h-11 w-full rounded-lg border-none bg-[#f3f4f6] dark:bg-[#16181d] pl-10 pr-4 text-sm text-[#1f2937] dark:text-white outline-none transition focus-visible:ring-2 focus-visible:ring-[#f37a2a]/20"
             />
           </div>
 
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
-            <ComingSoonDialog title="Notifications" type="action">
-              <button
-                type="button"
-                aria-label="Notifications"
-                className="relative rounded-xl p-2.5 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d]"
-              >
-                <Bell className="h-4 w-4" />
-                <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#f37a2a]" />
-              </button>
-            </ComingSoonDialog>
+            <Sheet>
+              <SheetTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Notifications"
+                  className="relative rounded-xl p-2.5 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d]"
+                >
+                  <Bell className="h-4 w-4" />
+                  <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#f37a2a]" />
+                </button>
+              </SheetTrigger>
+              <SheetContent>
+                <SheetHeader>
+                  <SheetTitle>Notifications</SheetTitle>
+                  <SheetDescription>You have 3 unread messages.</SheetDescription>
+                </SheetHeader>
+                <div className="mt-6 flex flex-col gap-4">
+                  <div className="flex flex-col gap-1 border-b pb-4">
+                    <span className="text-sm font-semibold">New Exception: ORD-004</span>
+                    <span className="text-xs text-muted-foreground">Address not found. Please update.</span>
+                  </div>
+                  <div className="flex flex-col gap-1 border-b pb-4">
+                    <span className="text-sm font-semibold">Pickup Scheduled</span>
+                    <span className="text-xs text-muted-foreground">Driver assigned for today 3:00 PM.</span>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
             <ThemeTogglerButton
               variant="ghost"
               className="rounded-xl p-2.5 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d] hover:text-[#292F54] dark:hover:text-[#ededdf] [&_svg]:h-4 [&_svg]:w-4 h-auto w-auto min-w-0"

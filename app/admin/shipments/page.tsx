@@ -1,9 +1,32 @@
-import { Search, Filter, MoreHorizontal, MapPin } from "lucide-react";
-import { ComingSoonDialog } from "@/components/coming-soon-dialog";
+"use client";
+
+import { Search, Filter, MoreHorizontal, MapPin, Package, Download, Eye } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger, DropdownMenuSeparator } from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { toast } from "sonner";
+import { useState } from "react";
+
+const mockShipments = [
+  { id: "AWB-78901234", tenant: "Acme Corp", route: "BOM → DEL", courier: "Delhivery", status: "In Transit" },
+  { id: "AWB-45678901", tenant: "TechNova", route: "BLR → HYD", courier: "Bluedart", status: "Delivered" },
+  { id: "AWB-12345678", tenant: "StoreFront", route: "CCU → PNQ", courier: "XpressBees", status: "Pending" },
+  { id: "AWB-98765432", tenant: "Acme Corp", route: "DEL → MAA", courier: "Delhivery", status: "RTO" },
+  { id: "AWB-34567890", tenant: "GlobalTech", route: "BOM → AMD", courier: "Ecom Express", status: "Out for Delivery" },
+];
 
 export default function GlobalShipmentsPage() {
+  const [filter, setFilter] = useState("All");
+
+  const handleAction = (action: string, awb: string) => {
+    toast.success(`${action} initiated for ${awb}`);
+  };
+
   return (
-    <div className="space-y-4 w-full mx-auto">
+    <div className="space-y-6 w-full mx-auto pb-10">
       <div>
         <h1 className="text-2xl font-bold text-[#111827] dark:text-white">Global Shipments</h1>
         <p className="text-sm text-[#64748b] dark:text-[#94a3b8] mt-1">
@@ -11,91 +34,102 @@ export default function GlobalShipmentsPage() {
         </p>
       </div>
 
-      <div className="bg-white dark:bg-[#1e212b] rounded-xl border border-gray-200 dark:border-[#2a2e3d] shadow-sm overflow-hidden">
+      <Card className="overflow-hidden">
         <div className="p-4 border-b border-gray-200 dark:border-[#2a2e3d] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex gap-2">
-            <button className="px-3 py-1.5 rounded-md text-sm font-medium bg-gray-100 dark:bg-[#2a2e3d] text-[#111827] dark:text-white">
-              All Statuses
-            </button>
-            <ComingSoonDialog title="Status Filters" type="action">
-              <button className="px-3 py-1.5 rounded-md text-sm font-medium text-[#64748b] dark:text-[#94a3b8] hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/50">
-                In Transit
-              </button>
-            </ComingSoonDialog>
-            <ComingSoonDialog title="Status Filters" type="action">
-              <button className="px-3 py-1.5 rounded-md text-sm font-medium text-[#64748b] dark:text-[#94a3b8] hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/50">
-                Delivered
-              </button>
-            </ComingSoonDialog>
+            {["All", "In Transit", "Delivered", "Exceptions"].map((status) => (
+              <Button
+                key={status}
+                variant={filter === status ? "default" : "outline"}
+                size="sm"
+                onClick={() => setFilter(status)}
+              >
+                {status}
+              </Button>
+            ))}
           </div>
           
           <div className="flex items-center gap-3">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-              <input 
-                type="text" 
-                placeholder="Search AWB..."
-                className="pl-9 pr-4 py-1.5 rounded-lg border border-gray-200 dark:border-[#2a2e3d] bg-white dark:bg-[#16181d] text-sm text-[#111827] dark:text-white outline-none focus:ring-2 focus:ring-[#f37a2a]/20 w-full sm:w-64"
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input 
+                placeholder="Search AWB or Tenant..."
+                className="pl-9 w-full sm:w-[300px]"
               />
             </div>
-            <ComingSoonDialog title="Advanced Filters" type="action">
-              <button className="p-2 border border-gray-200 dark:border-[#2a2e3d] rounded-lg text-gray-500 hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/50 transition-colors">
-                <Filter className="h-4 w-4" />
-              </button>
-            </ComingSoonDialog>
+            <Button variant="outline" size="icon" onClick={() => toast.info("Advanced filters coming soon.")}>
+              <Filter className="h-4 w-4" />
+            </Button>
           </div>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead>
-              <tr className="bg-gray-50/50 dark:bg-[#16181d]/50 text-xs font-semibold text-[#64748b] dark:text-[#94a3b8] uppercase tracking-wider border-b border-gray-200 dark:border-[#2a2e3d]">
-                <th className="px-6 py-4">AWB Number</th>
-                <th className="px-6 py-4">Tenant</th>
-                <th className="px-6 py-4">Route</th>
-                <th className="px-6 py-4">Courier</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-[#2a2e3d]">
-              {/* Skeletons to mock loading state */}
-              {[...Array(6)].map((_, i) => (
-                <tr key={i} className="hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/30 transition-colors animate-pulse">
-                  <td className="px-6 py-4">
-                    <div className="h-4 bg-gray-200 dark:bg-[#2a2e3d] rounded w-24 mb-2"></div>
-                    <div className="h-3 bg-gray-100 dark:bg-[#2a2e3d]/50 rounded w-16"></div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="h-4 bg-gray-200 dark:bg-[#2a2e3d] rounded w-32"></div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-2">
-                      <div className="h-3 w-3 bg-gray-200 dark:bg-[#2a2e3d] rounded-full"></div>
-                      <div className="h-3 bg-gray-200 dark:bg-[#2a2e3d] rounded w-12"></div>
-                      <div className="h-px bg-gray-300 dark:bg-gray-600 w-4"></div>
-                      <div className="h-3 bg-gray-200 dark:bg-[#2a2e3d] rounded w-12"></div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="h-4 bg-gray-200 dark:bg-[#2a2e3d] rounded w-20"></div>
-                  </td>
-                  <td className="px-6 py-4">
-                    <div className="h-5 bg-gray-200 dark:bg-[#2a2e3d] rounded-full w-20"></div>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <ComingSoonDialog title="Shipment Actions" type="action">
-                      <button className="p-1 text-[#64748b] hover:text-[#111827] dark:text-[#94a3b8] dark:hover:text-white transition-colors">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>AWB Number</TableHead>
+              <TableHead>Tenant</TableHead>
+              <TableHead>Route</TableHead>
+              <TableHead>Courier</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {mockShipments.map((shipment) => (
+              <TableRow key={shipment.id}>
+                <TableCell className="font-medium">
+                  <div className="flex items-center gap-2">
+                    <Package className="h-4 w-4 text-muted-foreground" />
+                    {shipment.id}
+                  </div>
+                </TableCell>
+                <TableCell>{shipment.tenant}</TableCell>
+                <TableCell>
+                  <div className="flex items-center gap-1.5 text-sm">
+                    <MapPin className="h-3.5 w-3.5 text-muted-foreground" />
+                    {shipment.route}
+                  </div>
+                </TableCell>
+                <TableCell>{shipment.courier}</TableCell>
+                <TableCell>
+                  <Badge 
+                    variant={
+                      shipment.status === "Delivered" ? "default" : 
+                      shipment.status === "RTO" ? "destructive" : 
+                      shipment.status === "Pending" ? "outline" : "secondary"
+                    }
+                  >
+                    {shipment.status}
+                  </Badge>
+                </TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open menu</span>
                         <MoreHorizontal className="h-4 w-4" />
-                      </button>
-                    </ComingSoonDialog>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => handleAction("View Details", shipment.id)}>
+                        <Eye className="mr-2 h-4 w-4" /> View Details
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => handleAction("Download Label", shipment.id)}>
+                        <Download className="mr-2 h-4 w-4" /> Download Label
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="text-red-600" onClick={() => handleAction("Mark as Exception", shipment.id)}>
+                        Flag Exception
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Card>
     </div>
   );
 }
