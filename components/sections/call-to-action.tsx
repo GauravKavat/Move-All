@@ -23,7 +23,7 @@ export function CallToAction() {
         </div>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="/client"
+            href="/login"
             className="bg-[#f37a2a] text-black font-black px-8 py-3.5 rounded text-sm font-mono tracking-wide hover:bg-[#f37a2a]/90 transition-all"
           >
             START FREE TRIAL →

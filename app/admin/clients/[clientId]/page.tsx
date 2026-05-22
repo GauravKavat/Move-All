@@ -54,10 +54,10 @@ export default function ClientDetailView({ params, searchParams }: { params: { c
       {/* Analytics KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: "Monthly Volume", value: "12,450", trend: "+8.2%", icon: Package },
-          { label: "Avg Delivery Time", value: "2.4 Days", trend: "-0.3 Days", icon: Truck },
-          { label: "Exception Rate", value: "1.2%", trend: "-0.5%", icon: AlertTriangle, positiveIsDown: true },
-          { label: "Monthly Revenue", value: "₹45,210", trend: "+12.1%", icon: TrendingUp },
+          { label: "Monthly Volume", value: "0", trend: "0%", icon: Package },
+          { label: "Avg Delivery Time", value: "0 Days", trend: "0 Days", icon: Truck },
+          { label: "Exception Rate", value: "0%", trend: "0%", icon: AlertTriangle, positiveIsDown: true },
+          { label: "Monthly Revenue", value: "₹0", trend: "0%", icon: TrendingUp },
         ].map((kpi, i) => (
           <div key={i} className="bg-white dark:bg-[#1e212b] rounded-xl p-4 border border-gray-200 dark:border-[#2a2e3d] shadow-sm">
             <div className="flex justify-between items-start mb-4">
@@ -98,25 +98,8 @@ export default function ClientDetailView({ params, searchParams }: { params: { c
           <div className="px-5 py-4 border-b border-gray-200 dark:border-[#2a2e3d]">
              <h3 className="font-semibold text-[#111827] dark:text-white text-base">Live Active Shipments</h3>
           </div>
-          <div className="p-0 overflow-y-auto flex-1">
-            {[1,2,3,4,5].map((item, i) => (
-              <ComingSoonDialog key={i} title="Shipment Details" type="order">
-                <div 
-                  className={`px-5 py-4 flex flex-col gap-2 hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/50 transition-colors cursor-pointer ${
-                    i !== 4 ? 'border-b border-gray-100 dark:border-white/5' : ''
-                  }`}
-                >
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs font-mono font-medium text-[#111827] dark:text-white">AWB-984{i}273{i}</span>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 font-medium">In Transit</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-[#64748b] dark:text-[#94a3b8]">
-                    <MapPin className="h-3 w-3" />
-                    <span>Mumbai → Delhi</span>
-                  </div>
-                </div>
-              </ComingSoonDialog>
-            ))}
+          <div className="p-0 overflow-y-auto flex-1 flex flex-col items-center justify-center min-h-[160px]">
+            <p className="text-sm text-[#64748b] dark:text-[#94a3b8]">No active shipments found.</p>
           </div>
         </div>
       </div>

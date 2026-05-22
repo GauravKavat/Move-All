@@ -16,8 +16,8 @@ export const metadata: Metadata = { title: "Admin Overview" };
 const KPIS = [
   {
     label: "Total Active Clients",
-    value: "1,842",
-    delta: "+12",
+    value: "0",
+    delta: "0",
     trend: "up",
     icon: Users,
     color: "text-blue-500",
@@ -25,8 +25,8 @@ const KPIS = [
   },
   {
     label: "Global Shipments",
-    value: "218,311",
-    delta: "+14.2%",
+    value: "0",
+    delta: "0%",
     trend: "up",
     icon: Package,
     color: "text-emerald-500",
@@ -34,8 +34,8 @@ const KPIS = [
   },
   {
     label: "Total GMV (INR)",
-    value: "₹6,11,419",
-    delta: "+8.4%",
+    value: "₹0",
+    delta: "0%",
     trend: "up",
     icon: TrendingUp,
     color: "text-[#f37a2a]",
@@ -43,8 +43,8 @@ const KPIS = [
   },
   {
     label: "Open Escalations",
-    value: "141",
-    delta: "-5",
+    value: "0",
+    delta: "0",
     trend: "down",
     icon: AlertTriangle,
     color: "text-red-500",
@@ -52,12 +52,7 @@ const KPIS = [
   },
 ];
 
-const RECENT_ALERTS = [
-  { id: 1, client: "Acme Logistics", issue: "High RTO Rate (West Zone)", time: "10 mins ago", severity: "high" },
-  { id: 2, client: "Globex Corp", issue: "API Integration Degraded", time: "1 hour ago", severity: "critical" },
-  { id: 3, client: "Stark Ind.", issue: "SLA Breach > 48hrs", time: "2 hours ago", severity: "medium" },
-  { id: 4, client: "Wayne Enterprises", issue: "Billing Overdue", time: "5 hours ago", severity: "low" },
-];
+const RECENT_ALERTS: any[] = [];
 
 export default function AdminOverviewPage() {
   return (
@@ -136,13 +131,8 @@ export default function AdminOverviewPage() {
                <p className="text-sm text-gray-400 dark:text-gray-500">Analytics visualization loading...</p>
             </div>
             
-            {/* Fake bar chart visualization using divs for layout purposes */}
             <div className="w-full h-full flex items-end justify-between gap-2 z-10 px-4">
-              {[40, 60, 45, 80, 55, 90, 75].map((height, i) => (
-                <div key={i} className="w-full bg-[#f37a2a]/20 dark:bg-[#f37a2a]/10 rounded-t-sm relative group hover:bg-[#f37a2a]/40 transition-colors" style={{ height: `${height}%` }}>
-                   <div className="absolute bottom-0 w-full bg-[#f37a2a] rounded-t-sm" style={{ height: `${height * 0.7}%` }}></div>
-                </div>
-              ))}
+              {/* Empty chart state */}
             </div>
           </div>
         </div>
@@ -153,25 +143,31 @@ export default function AdminOverviewPage() {
              <h3 className="font-semibold text-[#111827] dark:text-white text-base">Priority Escalations</h3>
           </div>
           <div className="p-0 overflow-y-auto flex-1">
-            {RECENT_ALERTS.map((alert, index) => (
-              <div 
-                key={alert.id} 
-                className={`px-5 py-4 flex gap-4 hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/50 transition-colors cursor-pointer ${
-                  index !== RECENT_ALERTS.length - 1 ? 'border-b border-gray-100 dark:border-white/5' : ''
-                }`}
-              >
-                <div className={`mt-0.5 w-2 h-2 rounded-full flex-shrink-0 ${
-                  alert.severity === 'critical' ? 'bg-red-500' :
-                  alert.severity === 'high' ? 'bg-[#f37a2a]' :
-                  alert.severity === 'medium' ? 'bg-amber-500' : 'bg-blue-500'
-                }`} />
-                <div>
-                  <p className="text-sm font-semibold text-[#111827] dark:text-white">{alert.client}</p>
-                  <p className="text-sm text-[#475569] dark:text-[#cbd5e1] mt-0.5">{alert.issue}</p>
-                  <p className="text-xs text-[#94a3b8] mt-1.5">{alert.time}</p>
+            {RECENT_ALERTS.length > 0 ? (
+              RECENT_ALERTS.map((alert, index) => (
+                <div 
+                  key={alert.id} 
+                  className={`px-5 py-4 flex gap-4 hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/50 transition-colors cursor-pointer ${
+                    index !== RECENT_ALERTS.length - 1 ? 'border-b border-gray-100 dark:border-white/5' : ''
+                  }`}
+                >
+                  <div className={`mt-0.5 w-2 h-2 rounded-full flex-shrink-0 ${
+                    alert.severity === 'critical' ? 'bg-red-500' :
+                    alert.severity === 'high' ? 'bg-[#f37a2a]' :
+                    alert.severity === 'medium' ? 'bg-amber-500' : 'bg-blue-500'
+                  }`} />
+                  <div>
+                    <p className="text-sm font-semibold text-[#111827] dark:text-white">{alert.client}</p>
+                    <p className="text-sm text-[#475569] dark:text-[#cbd5e1] mt-0.5">{alert.issue}</p>
+                    <p className="text-xs text-[#94a3b8] mt-1.5">{alert.time}</p>
+                  </div>
                 </div>
+              ))
+            ) : (
+              <div className="p-6 text-center">
+                <p className="text-sm text-[#64748b] dark:text-[#94a3b8]">No open escalations.</p>
               </div>
-            ))}
+            )}
           </div>
           <div className="px-5 py-3 border-t border-gray-200 dark:border-[#2a2e3d] text-center">
             <ComingSoonDialog title="Escalation Details" type="action">

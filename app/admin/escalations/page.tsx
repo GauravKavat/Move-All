@@ -15,11 +15,11 @@ export default function EscalationsPage() {
         <div className="px-5 py-4 border-b border-gray-200 dark:border-[#2a2e3d] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex gap-2">
             <button className="px-3 py-1.5 rounded-md text-sm font-medium bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400">
-              Critical (12)
+              Critical (0)
             </button>
             <ComingSoonDialog title="Status Filters" type="action">
               <button className="px-3 py-1.5 rounded-md text-sm font-medium text-[#64748b] dark:text-[#94a3b8] hover:bg-gray-50 dark:hover:bg-[#2a2e3d]/50">
-                High (45)
+                High (0)
               </button>
             </ComingSoonDialog>
             <ComingSoonDialog title="Status Filters" type="action">

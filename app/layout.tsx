@@ -34,7 +34,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${plusJakartaSans.className} bg-black text-[#EDEDDF] antialiased min-h-screen`}>
+      <body className={`${plusJakartaSans.className} bg-black text-[#EDEDDF] antialiased min-h-screen`} suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

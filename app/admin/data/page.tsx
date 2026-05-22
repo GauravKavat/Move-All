@@ -10,13 +10,7 @@ const STATUS_STYLES: Record<PipelineStatus, string> = {
   Down:    'bg-red-500/20 text-red-400',
 };
 
-const SEED: PipelineStream[] = [
-  { id: 'STRM-01', name: 'Tenant Outbound Mutation Bus',   status: 'Online',   lastSync: '2026-05-17T14:47:01Z', lagMinutes: 0, throughputPerMin: 14209 },
-  { id: 'STRM-02', name: '3PL Webhook Ingestion Pipe',     status: 'Online',   lastSync: '2026-05-17T14:47:00Z', lagMinutes: 0, throughputPerMin: 41920 },
-  { id: 'STRM-03', name: 'Reverse Logistics Async Queue',  status: 'Degraded', lastSync: '2026-05-17T14:44:12Z', lagMinutes: 3, throughputPerMin: 1205  },
-  { id: 'STRM-04', name: 'Rate Limit Token Bucket Sync',   status: 'Online',   lastSync: '2026-05-17T14:47:00Z', lagMinutes: 0, throughputPerMin: 8920  },
-  { id: 'STRM-05', name: 'Audit Event Emission Bus',       status: 'Online',   lastSync: '2026-05-17T14:46:58Z', lagMinutes: 0, throughputPerMin: 3402  },
-];
+const SEED: PipelineStream[] = [];
 
 export default function AdminDataPipelinePage() {
   const [streams] = useState<PipelineStream[]>(SEED);
@@ -72,30 +66,36 @@ export default function AdminDataPipelinePage() {
             </tr>
           </thead>
           <tbody className="text-sm divide-y divide-white/5">
-            {streams.map((s) => (
-              <tr key={s.id} className="hover:bg-white/5 transition-all">
-                <td className="p-4">
-                  <p className="text-white font-bold">{s.name}</p>
-                  <p className="text-[10px] text-[#EDEDDF]/40">{s.id}</p>
-                </td>
-                <td className="p-4">
-                  <span className={`px-2 py-0.5 rounded text-xs font-bold ${STATUS_STYLES[s.status]}`}>
-                    ● {s.status}
-                  </span>
-                </td>
-                <td
-                  className={`p-4 font-bold ${
-                    s.lagMinutes > 0 ? 'text-amber-400' : 'text-emerald-400'
-                  }`}
-                >
-                  {s.lagMinutes} min
-                </td>
-                <td className="p-4 text-white font-black">
-                  {s.throughputPerMin.toLocaleString()} msg/min
-                </td>
-                <td className="p-4 text-[10px] text-[#EDEDDF]/40">{s.lastSync}</td>
+            {streams.length > 0 ? (
+              streams.map((s) => (
+                <tr key={s.id} className="hover:bg-white/5 transition-all">
+                  <td className="p-4">
+                    <p className="text-white font-bold">{s.name}</p>
+                    <p className="text-[10px] text-[#EDEDDF]/40">{s.id}</p>
+                  </td>
+                  <td className="p-4">
+                    <span className={`px-2 py-0.5 rounded text-xs font-bold ${STATUS_STYLES[s.status]}`}>
+                      ● {s.status}
+                    </span>
+                  </td>
+                  <td
+                    className={`p-4 font-bold ${
+                      s.lagMinutes > 0 ? 'text-amber-400' : 'text-emerald-400'
+                    }`}
+                  >
+                    {s.lagMinutes} min
+                  </td>
+                  <td className="p-4 text-white font-black">
+                    {s.throughputPerMin.toLocaleString()} msg/min
+                  </td>
+                  <td className="p-4 text-[10px] text-[#EDEDDF]/40">{s.lastSync}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="p-8 text-center text-[#EDEDDF]/40">No data pipelines found.</td>
               </tr>
-            ))}
+            )}
           </tbody>
         </table>
       </div>

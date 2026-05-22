@@ -2,7 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/logo';
+import { createClient } from '@/lib/client';
+import { toast } from 'sonner';
 
 const NAV_LINKS = [
   { label: 'Platform', href: '#platform' },
@@ -14,12 +17,28 @@ const NAV_LINKS = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 12);
     window.addEventListener('scroll', handler, { passive: true });
+    
+    // Fetch user
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
     return () => window.removeEventListener('scroll', handler);
   }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    toast.success("Successfully logged out");
+    router.refresh();
+  };
 
   return (
     <header
@@ -48,18 +67,37 @@ export function Navbar() {
         </ul>
 
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/client"
-            className="text-[#EDEDDF]/60 hover:text-white text-sm font-mono transition-colors"
-          >
-            Client Login
-          </Link>
-          <Link
-            href="/client"
-            className="bg-[#f37a2a] text-black font-bold text-sm px-4 py-2 rounded hover:bg-[#f37a2a]/90 transition-all font-mono tracking-wide"
-          >
-            GET STARTED →
-          </Link>
+          {!user ? (
+            <>
+              <Link
+                href="/login"
+                className="text-[#EDEDDF]/60 hover:text-white text-sm font-mono transition-colors"
+              >
+                Client Login
+              </Link>
+              <Link
+                href="/login"
+                className="bg-[#f37a2a] text-black font-bold text-sm px-4 py-2 rounded hover:bg-[#f37a2a]/90 transition-all font-mono tracking-wide"
+              >
+                GET STARTED →
+              </Link>
+            </>
+          ) : (
+            <>
+              <a
+                href="mailto:sales@moveall.com"
+                className="text-[#EDEDDF]/60 hover:text-white text-sm font-mono transition-colors"
+              >
+                Contact Sales
+              </a>
+              <button
+                onClick={handleLogout}
+                className="bg-red-500/10 text-red-500 hover:bg-red-500/20 font-bold text-sm px-4 py-2 rounded transition-all font-mono tracking-wide"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
 
         <button
@@ -83,12 +121,21 @@ export function Navbar() {
               {link.label}
             </a>
           ))}
-          <Link
-            href="/client"
-            className="block bg-[#f37a2a] text-black font-bold text-sm px-4 py-2 rounded text-center font-mono mt-2"
-          >
-            GET STARTED →
-          </Link>
+          {!user ? (
+            <Link
+              href="/login"
+              className="block bg-[#f37a2a] text-black font-bold text-sm px-4 py-2 rounded text-center font-mono mt-2"
+            >
+              GET STARTED →
+            </Link>
+          ) : (
+            <button
+              onClick={() => { handleLogout(); setMobileOpen(false); }}
+              className="w-full bg-red-500/10 text-red-500 hover:bg-red-500/20 font-bold text-sm px-4 py-2 rounded text-center font-mono mt-2"
+            >
+              Logout
+            </button>
+          )}
         </div>
       )}
     </header>

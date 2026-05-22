@@ -18,12 +18,7 @@ const HEALTH_STYLES: Record<TenantHealth, string> = {
   Limited:  'bg-red-50 text-red-700 dark:bg-red-500/10 dark:text-red-400',
 };
 
-const SEED: Tenant[] = [
-  { id: 'TNT-00192', name: 'Vedic Organic Botanicals Inc.', tier: 'Enterprise', lastActivity: '2026-05-17T14:46:00Z', health: 'Healthy',  monthlyGmv: 482019.00, activeShipments: 14209 },
-  { id: 'TNT-08412', name: 'Jaipur Logistics Consortium',   tier: 'Pro',        lastActivity: '2026-05-17T14:12:00Z', health: 'At-Risk',  monthlyGmv: 129400.00, activeShipments: 4102  },
-  { id: 'TNT-00445', name: 'Chennai Textile Exports Ltd.',  tier: 'Starter',    lastActivity: '2026-05-17T13:00:00Z', health: 'Limited',  monthlyGmv: 18200.00,  activeShipments: 340   },
-  { id: 'TNT-00891', name: 'Delhi Electronics Wholesale',   tier: 'Enterprise', lastActivity: '2026-05-18T09:12:00Z', health: 'Healthy',  monthlyGmv: 954000.00, activeShipments: 25100 },
-];
+const SEED: Tenant[] = [];
 
 export default function AdminTenantHypervisorPage() {
   const [tenants] = useState<Tenant[]>(SEED);

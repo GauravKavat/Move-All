@@ -11,16 +11,33 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
+import { createClient } from "@/lib/client";
+import { useRouter } from "next/navigation";
 
 export default function HeroPage() {
   const [scrolled, setScrolled] = useState(false);
   const { theme, setTheme } = useTheme();
+  const [user, setUser] = useState<any>(null);
+  const router = useRouter();
+  const supabase = createClient();
   
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
+    
+    supabase.auth.getUser().then(({ data }) => {
+      setUser(data.user);
+    });
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    toast.success("Successfully logged out");
+    router.refresh();
+  };
 
   const handleGetQuote = (e: React.FormEvent) => {
     e.preventDefault();
@@ -58,16 +75,36 @@ export default function HeroPage() {
           />
           
           <div className="flex items-center p-1 bg-black/5 dark:bg-white/5 rounded-full border border-black/5 dark:border-white/10">
-            <Link href="/client" tabIndex={-1}>
-              <Button variant="ghost" className="rounded-full px-6 font-semibold hover:bg-white/50 dark:hover:bg-white/10 hover:text-[#111827] dark:hover:text-white transition-colors">
-                Sign In
-              </Button>
-            </Link>
-            <Link href="/client" tabIndex={-1}>
-              <Button className="rounded-full px-6 bg-[#f37a2a] hover:bg-[#e06716] text-white font-semibold shadow-md">
-                Sign Up
-              </Button>
-            </Link>
+            {!user ? (
+              <>
+                <Link href="/login" tabIndex={-1}>
+                  <Button variant="ghost" className="rounded-full px-6 font-semibold hover:bg-white/50 dark:hover:bg-white/10 hover:text-[#111827] dark:hover:text-white transition-colors">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/login" tabIndex={-1}>
+                  <Button className="rounded-full px-6 bg-[#f37a2a] hover:bg-[#e06716] text-white font-semibold shadow-md">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link href="/login" tabIndex={-1}>
+                  <Button className="rounded-full px-6 bg-[#f37a2a] hover:bg-[#e06716] text-white font-semibold shadow-md">
+                    Dashboard
+                  </Button>
+                </Link>
+                <a href="mailto:sales@moveall.com" tabIndex={-1}>
+                  <Button variant="ghost" className="rounded-full px-6 font-semibold hover:bg-white/50 dark:hover:bg-white/10 hover:text-[#111827] dark:hover:text-white transition-colors">
+                    Contact Sales
+                  </Button>
+                </a>
+                <Button onClick={handleLogout} className="rounded-full px-6 bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-500 font-semibold shadow-none">
+                  Logout
+                </Button>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -111,7 +148,7 @@ export default function HeroPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8 animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-300 pointer-events-auto">
-            <Link href="/client">
+            <Link href="/login">
               <Button size="lg" className="h-14 px-10 text-lg bg-[#292F54] dark:bg-white dark:text-[#050505] hover:bg-[#1f2441] dark:hover:bg-gray-200 text-white rounded-full font-bold shadow-[0_0_40px_rgba(255,255,255,0.1)] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)] transition-all w-full sm:w-auto group">
                 Enter Dashboard <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -443,7 +480,7 @@ export default function HeroPage() {
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-10">
             Join thousands of businesses who have simplified their shipping with MoveAll. Setup takes less than 5 minutes.
           </p>
-          <Link href="/client">
+          <Link href="/login">
             <Button size="lg" className="h-16 px-12 text-xl bg-[#f37a2a] hover:bg-[#e06716] text-white rounded-full font-bold shadow-xl hover:shadow-2xl transition-all w-full sm:w-auto">
               Get Started Now
             </Button>

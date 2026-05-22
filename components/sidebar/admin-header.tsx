@@ -1,13 +1,58 @@
 'use client';
 
-import { Bell, Search } from 'lucide-react';
-import { useState } from 'react';
+import { Bell, Search, LogOut } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { ThemeTogglerButton } from '@/components/animate-ui/components/buttons/theme-toggler';
-import { ComingSoonDialog } from '@/components/coming-soon-dialog';
+import { NotificationDrawer } from '@/components/drawer-right-5';
 import Link from 'next/link';
+import { createClient } from "@/lib/client";
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export function AdminHeader() {
   const [query, setQuery] = useState('');
+  const [initials, setInitials] = useState('AD');
+  const [displayName, setDisplayName] = useState('Admin');
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    toast.success("Signed out successfully");
+    router.push('/login');
+    router.refresh();
+  };
+
+  useEffect(() => {
+    async function loadUser() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user && user.user_metadata?.full_name) {
+        const fullName = user.user_metadata.full_name.trim();
+        const parts = fullName.split(/\s+/);
+        
+        if (parts.length === 1) {
+          setInitials(parts[0][0].toUpperCase());
+          setDisplayName(parts[0]);
+        } else {
+          const first = parts[0];
+          const last = parts[parts.length - 1];
+          const middle = parts.slice(1, -1);
+          
+          setInitials(`${first[0]}${last[0]}`.toUpperCase());
+          
+          let formattedName = `${first[0].toUpperCase()}.`;
+          if (middle.length > 0) {
+            formattedName += ` ${middle.map((m: string) => m[0].toUpperCase() + '.').join(' ')}`;
+          }
+          formattedName += ` ${last.charAt(0).toUpperCase() + last.slice(1)}`;
+          
+          setDisplayName(formattedName);
+        }
+      }
+    }
+    loadUser();
+  }, []);
 
   return (
     <header className="sticky top-0 z-40 bg-white dark:bg-[#1e212b] border-b border-gray-200 dark:border-[#2a2e3d]">
@@ -25,16 +70,7 @@ export function AdminHeader() {
         </div>
 
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
-          <ComingSoonDialog title="Admin Notifications" type="action">
-            <button
-              type="button"
-              aria-label="Notifications"
-              className="relative rounded-xl p-2.5 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d]"
-            >
-              <Bell className="h-4 w-4" />
-              <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500" />
-            </button>
-          </ComingSoonDialog>
+          <NotificationDrawer />
           <ThemeTogglerButton
             variant="ghost"
             className="rounded-xl p-2.5 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d] hover:text-[#292F54] dark:hover:text-[#ededdf] [&_svg]:h-4 [&_svg]:w-4 h-auto w-auto min-w-0"
@@ -44,13 +80,20 @@ export function AdminHeader() {
             className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d]"
           >
             <span className="grid h-7 w-7 place-items-center rounded-full bg-[#f37a2a] text-[11px] font-bold text-white">
-              AD
+              {initials}
             </span>
             <div className="hidden flex-col items-start md:flex">
-              <span className="text-xs font-semibold leading-none text-[#111827] dark:text-white">Admin</span>
+              <span className="text-xs font-semibold leading-none text-[#111827] dark:text-white">{displayName}</span>
               <span className="text-[10px] text-[#64748b] mt-1">Superuser</span>
             </div>
           </Link>
+          <button
+            onClick={handleSignOut}
+            title="Sign out"
+            className="rounded-xl p-2.5 text-[#292F54] dark:text-[#ededdf] transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/30 dark:hover:text-red-400"
+          >
+            <LogOut className="h-4 w-4" />
+          </button>
         </div>
       </div>
     </header>

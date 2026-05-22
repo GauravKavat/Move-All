@@ -22,22 +22,23 @@ export default function AdminSettingsPage() {
         </p>
       </div>
 
-      <Tabs defaultValue="general" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="security">Security</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+      <Tabs defaultValue="general" className="flex flex-col md:flex-row gap-6 w-full items-start">
+        <TabsList className="flex flex-col h-auto w-full md:w-64 items-start justify-start p-2 bg-transparent">
+          <TabsTrigger value="general" className="w-full justify-start py-2.5 px-4 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">General</TabsTrigger>
+          <TabsTrigger value="security" className="w-full justify-start py-2.5 px-4 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">Security</TabsTrigger>
+          <TabsTrigger value="notifications" className="w-full justify-start py-2.5 px-4 rounded-xl data-[state=active]:bg-white data-[state=active]:shadow-sm">Notifications</TabsTrigger>
         </TabsList>
 
-        <TabsContent value="general">
-          <Card>
+        <div className="flex-1 w-full">
+          <TabsContent value="general" className="mt-0 h-full">
+          <Card className="min-h-[600px] flex flex-col">
             <CardHeader>
               <CardTitle>Platform Configuration</CardTitle>
               <CardDescription>
                 Manage basic settings for the logistics platform.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 flex-1">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <Label htmlFor="platformName">Platform Name</Label>
@@ -59,15 +60,15 @@ export default function AdminSettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="security">
-          <Card>
+        <TabsContent value="security" className="mt-0 h-full">
+          <Card className="min-h-[600px] flex flex-col">
             <CardHeader>
               <CardTitle>Security Settings</CardTitle>
               <CardDescription>
                 Configure access controls and authentication requirements.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 flex-1">
               <div className="flex items-center justify-between space-x-4">
                 <div className="space-y-1">
                   <Label className="text-base">Two-Factor Authentication (2FA)</Label>
@@ -93,15 +94,15 @@ export default function AdminSettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="notifications">
-          <Card>
+        <TabsContent value="notifications" className="mt-0 h-full">
+          <Card className="min-h-[600px] flex flex-col">
             <CardHeader>
               <CardTitle>Notification Preferences</CardTitle>
               <CardDescription>
                 Choose what events trigger system-wide alerts.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="space-y-6 flex-1">
               <div className="flex items-center justify-between space-x-4">
                 <div className="space-y-1">
                   <Label className="text-base">New Tenant Registration</Label>
@@ -135,6 +136,7 @@ export default function AdminSettingsPage() {
             </CardFooter>
           </Card>
         </TabsContent>
+        </div>
       </Tabs>
     </div>
   );
