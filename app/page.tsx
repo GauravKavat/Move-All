@@ -45,7 +45,7 @@ export default function HeroPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa] dark:bg-[#0a0a0a] text-[#111827] dark:text-[#ededdf] font-sans selection:bg-[#f37a2a] selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-[#f8f9fa] dark:bg-[#0a0a0a] text-[#111827] dark:text-alabaster font-sans selection:bg-safety-amber selection:text-white transition-colors duration-300">
       
       {/* Dynamic Frosted Glass Navbar */}
       <header
@@ -56,16 +56,14 @@ export default function HeroPage() {
         } flex items-center justify-between`}
       >
         <div className="flex items-center gap-3">
-          <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#292F54] dark:bg-[#2b3358] text-lg font-extrabold text-white shadow-sm">
-            M
-          </div>
-          <span className="font-bold text-xl tracking-tight hidden sm:block">Move All</span>
+          <img src="/moveall-for-light-theme.png" alt="Move All Logistics" className="h-10 w-auto object-contain dark:hidden" />
+          <img src="/moveall-for-dark-theme.png" alt="Move All Logistics" className="hidden dark:block h-10 w-auto object-contain" />
         </div>
 
         <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold">
-          <Link href="#features" className="text-gray-700 hover:text-[#f37a2a] dark:text-gray-300 transition-colors">Features</Link>
-          <Link href="#how-it-works" className="text-gray-700 hover:text-[#f37a2a] dark:text-gray-300 transition-colors">How it Works</Link>
-          <Link href="#about" className="text-gray-700 hover:text-[#f37a2a] dark:text-gray-300 transition-colors">About Us</Link>
+          <Link href="#features" className="text-gray-700 hover:text-safety-amber dark:text-gray-300 transition-colors">Features</Link>
+          <Link href="#how-it-works" className="text-gray-700 hover:text-safety-amber dark:text-gray-300 transition-colors">How it Works</Link>
+          <Link href="#about" className="text-gray-700 hover:text-safety-amber dark:text-gray-300 transition-colors">About Us</Link>
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-4">
@@ -83,7 +81,7 @@ export default function HeroPage() {
                   </Button>
                 </Link>
                 <Link href="/login" tabIndex={-1}>
-                  <Button className="rounded-full px-6 bg-[#f37a2a] hover:bg-[#e06716] text-white font-semibold shadow-md">
+                  <Button className="rounded-full px-6 bg-safety-amber hover:bg-[#e06716] text-white font-semibold shadow-md">
                     Sign Up
                   </Button>
                 </Link>
@@ -91,7 +89,7 @@ export default function HeroPage() {
             ) : (
               <>
                 <Link href="/login" tabIndex={-1}>
-                  <Button className="rounded-full px-6 bg-[#f37a2a] hover:bg-[#e06716] text-white font-semibold shadow-md">
+                  <Button className="rounded-full px-6 bg-safety-amber hover:bg-[#e06716] text-white font-semibold shadow-md">
                     Dashboard
                   </Button>
                 </Link>
@@ -116,29 +114,29 @@ export default function HeroPage() {
         <div className="absolute inset-0 bg-[#050505] hidden dark:block" />
         
         {/* Static Grid Lines (Highly Performant) */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
 
         {/* Interactive Box-Trail Grid (O(1) DOM nodes) */}
         <InteractiveGrid />
         
         {/* The Central Beam */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-transparent via-[#f37a2a]/30 to-transparent" />
-        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[200px] md:w-[400px] h-[600px] bg-[#f37a2a]/20 blur-[100px] rounded-full pointer-events-none opacity-60 dark:opacity-80 mix-blend-screen" />
-        <div className="absolute top-[40%] left-1/2 -translate-x-1/2 w-[300px] md:w-[600px] h-[400px] bg-blue-500/15 blur-[120px] rounded-full pointer-events-none opacity-60 dark:opacity-70 mix-blend-screen" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-linear-to-b from-transparent via-safety-amber/30 to-transparent" />
+        <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-50 md:w-100 h-150 bg-safety-amber/20 blur-[100px] rounded-full pointer-events-none opacity-60 dark:opacity-80 mix-blend-screen" />
+        <div className="absolute top-[40%] left-1/2 -translate-x-1/2 w-75 md:w-150 h-100 bg-blue-500/15 blur-[120px] rounded-full pointer-events-none opacity-60 dark:opacity-70 mix-blend-screen" />
 
         <div className="relative z-10 max-w-5xl mx-auto text-center space-y-10 pointer-events-none">
           
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gray-200 dark:border-white/10 bg-white/50 dark:bg-black/50 backdrop-blur-md text-gray-900 dark:text-gray-200 text-xs font-bold uppercase tracking-widest mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700 shadow-sm">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f37a2a] opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f37a2a]"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-safety-amber opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-safety-amber"></span>
             </span>
             Next-Gen Logistics
           </div>
 
           <h1 className="text-6xl md:text-7xl lg:text-[90px] font-extrabold tracking-[-0.03em] leading-[1.05] animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-100 text-gray-900 dark:text-white">
             Deliver faster.<br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f37a2a] via-[#ff9b5a] to-[#f37a2a] bg-[length:200%_auto] animate-gradient drop-shadow-sm">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-safety-amber via-[#ff9b5a] to-safety-amber bg-size-[200%_auto] animate-gradient drop-shadow-sm">
               Save more money.
             </span>
           </h1>
@@ -160,7 +158,7 @@ export default function HeroPage() {
                   Get a Free Consultation
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[450px] dark:bg-[#0c0d12] border-white/10 backdrop-blur-3xl">
+              <DialogContent className="sm:max-w-112.5 dark:bg-[#0c0d12] border-white/10 backdrop-blur-3xl">
                 <DialogHeader>
                   <DialogTitle className="text-2xl font-bold tracking-tight">Let&apos;s improve your shipping.</DialogTitle>
                   <DialogDescription className="text-base mt-2">
@@ -190,7 +188,7 @@ export default function HeroPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <Button type="submit" className="w-full bg-[#f37a2a] hover:bg-[#e06716] text-white mt-6 h-12 text-base font-bold rounded-lg shadow-[0_0_20px_rgba(243,122,42,0.3)]">
+                  <Button type="submit" className="w-full bg-safety-amber hover:bg-[#e06716] text-white mt-6 h-12 text-base font-bold rounded-lg shadow-[0_0_20px_rgba(243,122,42,0.3)]">
                     Request a Call
                   </Button>
                 </form>
@@ -201,20 +199,20 @@ export default function HeroPage() {
           {/* Platform Snapshots: Bento Grid */}
           <div className="pt-32 pb-20 w-full animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 relative flex justify-center max-w-6xl mx-auto z-20">
             {/* Background Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-[#f37a2a]/15 blur-[120px] rounded-full pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-125 bg-safety-amber/15 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-75 bg-blue-600/10 blur-[100px] rounded-full pointer-events-none" />
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full relative z-10 perspective-[2000px]">
               
               {/* Bento Box 1: Client Dashboard Mock (Large) */}
-              <div className="md:col-span-2 bg-white/90 dark:bg-[#0c0d12]/90 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-3xl p-6 shadow-xl dark:shadow-2xl flex flex-col gap-6 group hover:border-[#f37a2a]/50 transition-colors relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-[#f37a2a]/5 blur-3xl -mr-20 -mt-20 pointer-events-none transition-opacity group-hover:opacity-100 opacity-50" />
+              <div className="md:col-span-2 bg-white/90 dark:bg-[#0c0d12]/90 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-3xl p-6 shadow-xl dark:shadow-2xl flex flex-col gap-6 group hover:border-safety-amber/50 transition-colors relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-safety-amber/5 blur-3xl -mr-20 -mt-20 pointer-events-none transition-opacity group-hover:opacity-100 opacity-50" />
                 <div className="flex justify-between items-start relative z-10">
                    <div>
                      <h3 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Client Dashboard</h3>
                      <p className="text-sm text-gray-500 mt-1">Manage orders, pickups, and billing in one place.</p>
                    </div>
-                   <div className="px-3 py-1 bg-[#f37a2a]/10 text-[#f37a2a] rounded-full text-xs font-bold border border-[#f37a2a]/20">Active Workspace</div>
+                   <div className="px-3 py-1 bg-safety-amber/10 text-safety-amber rounded-full text-xs font-bold border border-safety-amber/20">Active Workspace</div>
                 </div>
                 
                 <div className="bg-gray-50 dark:bg-[#16181d] rounded-2xl p-5 border border-gray-100 dark:border-white/5 flex-1 relative z-10 shadow-inner">
@@ -230,15 +228,15 @@ export default function HeroPage() {
                          <p className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">8,542</p>
                          <p className="text-xs text-gray-500 font-medium">Total Orders</p>
                       </div>
-                      <div className="bg-gradient-to-br from-[#f37a2a]/10 to-orange-500/5 dark:from-[#f37a2a]/20 dark:to-[#f37a2a]/5 p-4 rounded-xl border border-[#f37a2a]/20 shadow-sm relative overflow-hidden">
+                      <div className="bg-linear-to-br from-safety-amber/10 to-orange-500/5 dark:from-safety-amber/20 dark:to-safety-amber/5 p-4 rounded-xl border border-safety-amber/20 shadow-sm relative overflow-hidden">
                          <div className="flex justify-between items-center mb-3 relative z-10">
                            <div className="p-1.5 bg-white/50 dark:bg-white/10 rounded-md">
-                             <RotateCcw className="h-4 w-4 text-[#f37a2a]" />
+                             <RotateCcw className="h-4 w-4 text-safety-amber" />
                            </div>
                            <span className="text-[10px] text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-1.5 py-0.5 rounded font-bold">-0.5%</span>
                          </div>
                          <p className="text-2xl font-black text-gray-900 dark:text-white tracking-tight relative z-10">2.8%</p>
-                         <p className="text-xs text-[#f37a2a] font-bold relative z-10">RTO Rate (Low)</p>
+                         <p className="text-xs text-safety-amber font-bold relative z-10">RTO Rate (Low)</p>
                       </div>
                       <div className="hidden md:block bg-white dark:bg-[#0c0d12] p-4 rounded-xl border border-gray-100 dark:border-white/5 shadow-sm">
                          <div className="flex justify-between items-center mb-3">
@@ -253,7 +251,7 @@ export default function HeroPage() {
                    </div>
                    {/* Quick Action Mock */}
                    <div className="mt-5 flex gap-3">
-                     <button className="flex-1 bg-[#f37a2a] hover:bg-[#e06716] text-white py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-1.5 shadow-md transition-colors"><Plus className="h-4 w-4" /> Create Order</button>
+                     <button className="flex-1 bg-safety-amber hover:bg-[#e06716] text-white py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-1.5 shadow-md transition-colors"><Plus className="h-4 w-4" /> Create Order</button>
                      <button className="flex-1 bg-white dark:bg-[#0c0d12] hover:bg-gray-50 dark:hover:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-900 dark:text-white py-2.5 rounded-lg text-sm font-bold flex items-center justify-center gap-1.5 shadow-sm transition-colors">Schedule Pickup</button>
                    </div>
                 </div>
@@ -284,7 +282,7 @@ export default function HeroPage() {
 
               {/* Bento Box 3: Admin Shipments Management */}
               <div className="md:col-span-3 bg-white/90 dark:bg-[#0c0d12]/90 backdrop-blur-xl border border-gray-200 dark:border-white/10 rounded-3xl p-6 shadow-xl dark:shadow-2xl flex flex-col md:flex-row gap-8 group hover:border-emerald-500/50 transition-colors relative overflow-hidden">
-                <div className="absolute top-1/2 left-1/4 w-[400px] h-[100px] bg-emerald-500/5 blur-3xl -translate-y-1/2 pointer-events-none transition-opacity group-hover:opacity-100 opacity-50" />
+                <div className="absolute top-1/2 left-1/4 w-100 h-25 bg-emerald-500/5 blur-3xl -translate-y-1/2 pointer-events-none transition-opacity group-hover:opacity-100 opacity-50" />
                 <div className="w-full md:w-1/3 flex flex-col justify-center relative z-10">
                    <h3 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">Admin Network Hub</h3>
                    <p className="text-sm text-gray-500 mt-3 leading-relaxed">Complete bird&apos;s-eye view of your entire logistics network. Manage shipments, dynamically assign couriers, and resolve exceptions globally.</p>
@@ -334,7 +332,7 @@ export default function HeroPage() {
             Trusted by growing businesses everywhere
           </p>
           <div className="flex flex-wrap justify-center items-center gap-12 opacity-60 dark:opacity-40 grayscale">
-            <h2 className="text-2xl font-black font-serif">AERO<span className="text-[#f37a2a]">FREIGHT</span></h2>
+            <h2 className="text-2xl font-black font-serif">AERO<span className="text-safety-amber">FREIGHT</span></h2>
             <h2 className="text-2xl font-bold tracking-tighter">Velocity</h2>
             <h2 className="text-xl font-bold uppercase tracking-widest border-2 border-current px-2">Nexus</h2>
             <h2 className="text-2xl font-extrabold italic">Globex</h2>
@@ -347,15 +345,15 @@ export default function HeroPage() {
       <section id="features" className="py-32 relative z-10">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">Everything you need to ship <span className="text-[#f37a2a]">smarter.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-bold mb-6">Everything you need to ship <span className="text-safety-amber">smarter.</span></h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">MoveAll takes the headache out of shipping. We connect you to the best couriers and give you the tools to ensure every package arrives safely.</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Feature 1 */}
-            <div className="bg-white dark:bg-[#16181d] border border-gray-200 dark:border-[#2a2e3d] rounded-3xl p-10 hover:border-[#f37a2a]/50 transition-colors shadow-sm">
-              <div className="h-14 w-14 rounded-2xl bg-[#fff4ed] dark:bg-[#f37a2a]/10 flex items-center justify-center mb-8">
-                <Truck className="h-7 w-7 text-[#f37a2a]" />
+            <div className="bg-white dark:bg-[#16181d] border border-gray-200 dark:border-[#2a2e3d] rounded-3xl p-10 hover:border-safety-amber/50 transition-colors shadow-sm">
+              <div className="h-14 w-14 rounded-2xl bg-[#fff4ed] dark:bg-safety-amber/10 flex items-center justify-center mb-8">
+                <Truck className="h-7 w-7 text-safety-amber" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Smart Courier Selection</h3>
               <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
@@ -417,7 +415,7 @@ export default function HeroPage() {
 
             <div className="relative z-10 flex flex-col items-center text-center space-y-6">
               <div className="h-24 w-24 rounded-full bg-white dark:bg-[#16181d] border-4 border-gray-100 dark:border-[#2a2e3d] flex items-center justify-center shadow-lg">
-                <Package className="h-10 w-10 text-[#f37a2a]" />
+                <Package className="h-10 w-10 text-safety-amber" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-3">1. Add Your Orders</h3>
@@ -427,7 +425,7 @@ export default function HeroPage() {
 
             <div className="relative z-10 flex flex-col items-center text-center space-y-6">
               <div className="h-24 w-24 rounded-full bg-white dark:bg-[#16181d] border-4 border-gray-100 dark:border-[#2a2e3d] flex items-center justify-center shadow-lg">
-                <MapPin className="h-10 w-10 text-[#f37a2a]" />
+                <MapPin className="h-10 w-10 text-safety-amber" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-3">2. We Pick It Up</h3>
@@ -437,7 +435,7 @@ export default function HeroPage() {
 
             <div className="relative z-10 flex flex-col items-center text-center space-y-6">
               <div className="h-24 w-24 rounded-full bg-white dark:bg-[#16181d] border-4 border-gray-100 dark:border-[#2a2e3d] flex items-center justify-center shadow-lg">
-                <Search className="h-10 w-10 text-[#f37a2a]" />
+                <Search className="h-10 w-10 text-safety-amber" />
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-3">3. Track & Relax</h3>
@@ -450,23 +448,23 @@ export default function HeroPage() {
 
       {/* Value Metrics Section */}
       <section className="py-24 bg-[#292F54] dark:bg-[#1a1e36] text-white relative z-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#f37a2a]/20 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute top-0 right-0 w-150 h-150 bg-safety-amber/20 blur-[150px] rounded-full pointer-events-none" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-white/20">
             <div className="p-4">
-              <p className="text-5xl font-black text-[#f37a2a] mb-3">20%</p>
+              <p className="text-5xl font-black text-safety-amber mb-3">20%</p>
               <p className="text-lg font-medium text-white">Average reduction in shipping costs</p>
             </div>
             <div className="p-4">
-              <p className="text-5xl font-black text-[#f37a2a] mb-3">2x</p>
+              <p className="text-5xl font-black text-safety-amber mb-3">2x</p>
               <p className="text-lg font-medium text-white">Faster processing of daily orders</p>
             </div>
             <div className="p-4">
-              <p className="text-5xl font-black text-[#f37a2a] mb-3">15%</p>
+              <p className="text-5xl font-black text-safety-amber mb-3">15%</p>
               <p className="text-lg font-medium text-white">Drop in Return-to-Origin (RTO) rates</p>
             </div>
             <div className="p-4">
-              <p className="text-5xl font-black text-[#f37a2a] mb-3">24/7</p>
+              <p className="text-5xl font-black text-safety-amber mb-3">24/7</p>
               <p className="text-lg font-medium text-white">Support from dedicated logistics experts</p>
             </div>
           </div>
@@ -481,7 +479,7 @@ export default function HeroPage() {
             Join thousands of businesses who have simplified their shipping with MoveAll. Setup takes less than 5 minutes.
           </p>
           <Link href="/login">
-            <Button size="lg" className="h-16 px-12 text-xl bg-[#f37a2a] hover:bg-[#e06716] text-white rounded-full font-bold shadow-xl hover:shadow-2xl transition-all w-full sm:w-auto">
+            <Button size="lg" className="h-16 px-12 text-xl bg-safety-amber hover:bg-[#e06716] text-white rounded-full font-bold shadow-xl hover:shadow-2xl transition-all w-full sm:w-auto">
               Get Started Now
             </Button>
           </Link>
@@ -493,8 +491,8 @@ export default function HeroPage() {
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="space-y-4 col-span-1 md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="grid h-8 w-8 place-items-center rounded-lg bg-[#292F54] text-sm font-extrabold text-white">M</div>
-              <span className="font-bold text-lg tracking-tight">Move All</span>
+              <img src="/moveall-for-light-theme.png" alt="Move All" className="h-8 w-auto object-contain dark:hidden" />
+              <img src="/moveall-for-dark-theme.png" alt="Move All" className="hidden dark:block h-8 w-auto object-contain" />
             </div>
             <p className="text-gray-500 dark:text-gray-400 text-sm">
               Making shipping simple, reliable, and affordable for businesses everywhere.
@@ -504,37 +502,37 @@ export default function HeroPage() {
           <div>
             <h4 className="font-bold mb-4">Platform</h4>
             <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-              <li><Link href="#" className="hover:text-[#f37a2a]">Courier Tracking</Link></li>
-              <li><Link href="#" className="hover:text-[#f37a2a]">Reduce RTOs</Link></li>
-              <li><Link href="#" className="hover:text-[#f37a2a]">Pricing</Link></li>
-              <li><Link href="#" className="hover:text-[#f37a2a]">Help Center</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Courier Tracking</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Reduce RTOs</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Pricing</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Help Center</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-4">Company</h4>
             <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-              <li><Link href="#" className="hover:text-[#f37a2a]">About Us</Link></li>
-              <li><Link href="#" className="hover:text-[#f37a2a]">Contact Us</Link></li>
-              <li><Link href="#" className="hover:text-[#f37a2a]">Partner with us</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">About Us</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Contact Us</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Partner with us</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-4">Legal</h4>
             <ul className="space-y-3 text-sm text-gray-500 dark:text-gray-400">
-              <li><Link href="#" className="hover:text-[#f37a2a]">Privacy Policy</Link></li>
-              <li><Link href="#" className="hover:text-[#f37a2a]">Terms of Service</Link></li>
-              <li><Link href="#" className="hover:text-[#f37a2a]">Refund Policy</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Privacy Policy</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Terms of Service</Link></li>
+              <li><Link href="#" className="hover:text-safety-amber">Refund Policy</Link></li>
             </ul>
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-gray-200 dark:border-white/5 text-center md:text-left flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 dark:text-gray-400">
           <p>© 2026 Move All Logistics. All rights reserved.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <Link href="#" className="hover:text-[#f37a2a]">Facebook</Link>
-            <Link href="#" className="hover:text-[#f37a2a]">LinkedIn</Link>
-            <Link href="#" className="hover:text-[#f37a2a]">Instagram</Link>
+            <Link href="#" className="hover:text-safety-amber">Facebook</Link>
+            <Link href="#" className="hover:text-safety-amber">LinkedIn</Link>
+            <Link href="#" className="hover:text-safety-amber">Instagram</Link>
           </div>
         </div>
       </footer>
@@ -571,7 +569,7 @@ function InteractiveGrid() {
 
   return (
     <div 
-      className="absolute inset-0 pointer-events-auto z-0 overflow-hidden [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" 
+      className="absolute inset-0 pointer-events-auto z-0 overflow-hidden mask-[radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" 
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { trailRef.current = []; setTrail([]); }}
     >
@@ -587,7 +585,7 @@ function InteractiveGrid() {
       {trail.map(box => (
         <div 
           key={box.id}
-          className="absolute bg-[#f37a2a]/20 dark:bg-[#f37a2a]/40 animate-trail-box pointer-events-none"
+          className="absolute bg-safety-amber/20 dark:bg-safety-amber/40 animate-trail-box pointer-events-none"
           style={{
             left: box.x,
             top: box.y,

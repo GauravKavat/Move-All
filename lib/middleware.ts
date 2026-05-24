@@ -59,18 +59,74 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Prevent clients from accessing other clients' routes
+  if (user && isClientRoute && !isAdmin) {
+    const pathSlug = url.pathname.split('/')[1];
+    
+    // Always allow the fallback '/client'
+    if (pathSlug !== 'client') {
+      try {
+        const { data: clientData } = await supabase
+          .from('clients')
+          .select('slug')
+          .eq('user_id', user.id)
+          .maybeSingle();
+        
+        // If they have a custom slug and it doesn't match the current path slug, redirect to unauthorized
+        if (!clientData || clientData.slug !== pathSlug) {
+          url.pathname = '/unauthorized';
+          return NextResponse.redirect(url);
+        }
+      } catch (e) {
+        // If clients table doesn't exist, we only allow '/client'
+        url.pathname = '/unauthorized';
+        return NextResponse.redirect(url);
+      }
+    }
+  }
+
   // Redirect signed-in users away from login
   if (user && url.pathname === '/login') {
     if (isAdmin) {
       url.pathname = '/admin'
     } else {
-      // Query the client slug
-      const { data } = await supabase.from('clients').select('slug').eq('user_id', user.id).single();
-      if (data?.slug) {
-        url.pathname = `/${data.slug}`;
-      } else {
-        // If no client profile found, redirect to unauthorized or setup page
-        url.pathname = '/unauthorized';
+      // Query the client slug with fallback to profiles table
+      try {
+        const { data: clientData } = await supabase
+          .from('clients')
+          .select('slug')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (clientData?.slug) {
+          url.pathname = `/${clientData.slug}`;
+        } else {
+          // Fallback to profiles role check
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', user.id)
+            .maybeSingle();
+
+          if (profileData?.role === 'client') {
+            url.pathname = '/client';
+          } else {
+            url.pathname = '/unauthorized';
+          }
+        }
+      } catch (err) {
+        // Table doesn't exist or database query failed: check profiles table role
+        const { data: profileData } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .maybeSingle();
+
+        if (profileData?.role === 'client') {
+          url.pathname = '/client';
+        } else {
+          url.pathname = '/unauthorized';
+        }
       }
     }
     return NextResponse.redirect(url)

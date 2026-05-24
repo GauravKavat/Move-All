@@ -25,6 +25,18 @@ export const metadata: Metadata = {
     "shipping",
   ],
   robots: { index: true, follow: true },
+  icons: {
+    icon: [
+      {
+        url: "/moveall-favicon-light.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/moveall-favicon-dark.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

@@ -43,10 +43,8 @@ export default function LoginPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#f37a2a]/10 blur-[120px] rounded-full pointer-events-none" />
 
       <Link href="/" className="mb-8 flex items-center gap-3 relative z-10 group">
-        <div className="grid h-10 w-10 place-items-center rounded-xl bg-[#292F54] dark:bg-[#2b3358] text-lg font-extrabold text-white shadow-sm group-hover:scale-105 transition-transform">
-          M
-        </div>
-        <span className="font-bold text-2xl tracking-tight text-gray-900 dark:text-white">Move All</span>
+        <img src="/moveall-for-light-theme.png" alt="Move All Logistics" className="h-10 w-auto object-contain dark:hidden group-hover:scale-105 transition-transform" />
+        <img src="/moveall-for-dark-theme.png" alt="Move All Logistics" className="hidden dark:block h-10 w-auto object-contain group-hover:scale-105 transition-transform" />
       </Link>
 
       <div className="w-full max-w-md relative z-10">

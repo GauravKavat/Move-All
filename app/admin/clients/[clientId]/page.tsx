@@ -9,13 +9,22 @@ import {
   Activity
 } from 'lucide-react';
 import { ComingSoonDialog } from "@/components/coming-soon-dialog";
+import { createClient } from "@/lib/server";
 
-export default function ClientDetailView({ params, searchParams }: { params: { clientId: string }, searchParams?: { name?: string } }) {
-  // Mock data for client based on ID or use searchParams name
-  const clientName = searchParams?.name || (params.clientId === 'cli_acme' ? 'Acme Logistics' : 
-                     params.clientId === 'cli_globex' ? 'Globex Corp' : 
-                     params.clientId === 'cli_stark' ? 'Stark Ind.' : 
-                     'Client Organization');
+export default async function ClientDetailView({ params, searchParams }: { params: Promise<{ clientId: string }>, searchParams?: Promise<{ name?: string }> }) {
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  const clientId = resolvedParams.clientId;
+
+  const supabase = await createClient();
+  
+  const { data: clientData } = await supabase
+    .from('clients')
+    .select('name')
+    .eq('id', clientId)
+    .maybeSingle();
+
+  const clientName = clientData?.name || resolvedSearchParams?.name || 'Client Organization';
 
   return (
     <div className="space-y-4 w-full mx-auto">
@@ -27,7 +36,7 @@ export default function ClientDetailView({ params, searchParams }: { params: { c
             <span>/</span>
             <span>Clients</span>
             <span>/</span>
-            <span className="text-[#f37a2a]">{params.clientId}</span>
+            <span className="text-[#f37a2a]">{clientId}</span>
           </div>
           <h1 className="text-2xl font-bold text-[#111827] dark:text-white flex items-center gap-3">
             {clientName}

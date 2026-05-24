@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme inline {
     /* ── MoveAll Brand Tokens ── */
@@ -82,6 +82,37 @@
     --sidebar-ring: oklch(0.708 0 0);
     --destructive-foreground: oklch(0.985 0 0);
 }
+
+.dark {
+    --background: oklch(0.141 0.005 285);
+    --foreground: oklch(0.985 0 0);
+    --card: oklch(0.182 0.011 262);
+    --card-foreground: oklch(0.985 0 0);
+    --popover: oklch(0.182 0.011 262);
+    --popover-foreground: oklch(0.985 0 0);
+    --primary: oklch(0.985 0 0);
+    --primary-foreground: oklch(0.141 0.005 285);
+    --secondary: oklch(0.21 0.006 285);
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(0.21 0.006 285);
+    --muted-foreground: oklch(0.639 0.011 254);
+    --accent: oklch(0.21 0.006 285);
+    --accent-foreground: oklch(0.985 0 0);
+    --destructive: oklch(0.396 0.141 25.723);
+    --destructive-foreground: oklch(0.985 0 0);
+    --border: oklch(0.269 0.008 262);
+    --input: oklch(0.269 0.008 262);
+    --ring: oklch(0.708 0.15 45);
+    --sidebar: oklch(0.182 0.011 262);
+    --sidebar-foreground: oklch(0.985 0 0);
+    --sidebar-primary: oklch(0.985 0 0);
+    --sidebar-primary-foreground: oklch(0.141 0.005 285);
+    --sidebar-accent: oklch(0.21 0.006 285);
+    --sidebar-accent-foreground: oklch(0.985 0 0);
+    --sidebar-border: oklch(0.269 0.008 262);
+    --sidebar-ring: oklch(0.708 0.15 45);
+}
+
 
 @layer base {
     * {

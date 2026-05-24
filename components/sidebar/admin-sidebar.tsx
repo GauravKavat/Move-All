@@ -241,14 +241,10 @@ export function AdminSidebar({ isCollapsed, onToggle }: { isCollapsed: boolean, 
     <>
       <aside ref={sidebarRef} className={`fixed left-0 top-0 bottom-0 bg-white dark:bg-[#1e212b] border-r border-gray-200 dark:border-[#2a2e3d] flex flex-col z-50 transition-all duration-300 ease-in-out ${isCollapsed ? 'w-20' : 'w-64'}`}>
         <div className={`h-16 flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} px-4 sm:px-5 border-b border-gray-200 dark:border-[#2a2e3d] flex-shrink-0 transition-all duration-300 overflow-hidden relative`}>
-          <Link href="/admin" className={`flex items-center gap-3 whitespace-nowrap transition-opacity duration-300 ${isCollapsed ? 'opacity-0 w-0 hidden' : 'opacity-100'}`}>
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-[#292F54] dark:bg-[#2b3358] text-sm font-extrabold text-white flex-shrink-0">
-              MA
-            </span>
-            <div className="flex flex-col justify-center">
-              <p className="text-sm font-bold leading-tight text-[#111827] dark:text-white">Admin Hub</p>
-              <p className="text-[10px] font-medium text-[#f37a2a]">Global View</p>
-            </div>
+          <Link href="/admin" className={`flex items-center gap-2 whitespace-nowrap transition-opacity duration-300 ${isCollapsed ? 'opacity-0 w-0 hidden' : 'opacity-100'}`}>
+            <img src="/moveall-for-light-theme.png" alt="Move All" className="h-8 w-auto object-contain dark:hidden" />
+            <img src="/moveall-for-dark-theme.png" alt="Move All" className="hidden dark:block h-8 w-auto object-contain" />
+            <span className="text-[9px] font-bold text-[#f37a2a] px-1.5 py-0.5 bg-[#f37a2a]/10 rounded font-mono uppercase tracking-wide">Admin</span>
           </Link>
           <button 
             onClick={onToggle} 

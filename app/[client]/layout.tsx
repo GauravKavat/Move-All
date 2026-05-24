@@ -51,32 +51,64 @@ export default function ClientLayout({ children, params }: { children: React.Rea
   const [darkMode] = useState(false);
   const [initials, setInitials] = useState('U');
   const [displayName, setDisplayName] = useState('User');
+  const [walletBalance, setWalletBalance] = useState<number | null>(null);
 
   useEffect(() => {
     async function loadUser() {
       const supabase = createClient();
       const { data: { user } } = await supabase.auth.getUser();
-      if (user && user.user_metadata?.full_name) {
-        const fullName = user.user_metadata.full_name.trim();
-        const parts = fullName.split(/\s+/);
-        
-        if (parts.length === 1) {
-          setInitials(parts[0][0].toUpperCase());
-          setDisplayName(parts[0]);
-        } else {
-          const first = parts[0];
-          const last = parts[parts.length - 1];
-          const middle = parts.slice(1, -1);
+      if (user) {
+        if (user.user_metadata?.full_name) {
+          const fullName = user.user_metadata.full_name.trim();
+          const parts = fullName.split(/\s+/);
           
-          setInitials(`${first[0]}${last[0]}`.toUpperCase());
-          
-          let formattedName = `${first[0].toUpperCase()}.`;
-          if (middle.length > 0) {
-            formattedName += ` ${middle.map((m: string) => m[0].toUpperCase() + '.').join(' ')}`;
+          if (parts.length === 1) {
+            setInitials(parts[0][0].toUpperCase());
+            setDisplayName(parts[0]);
+          } else {
+            const first = parts[0];
+            const last = parts[parts.length - 1];
+            const middle = parts.slice(1, -1);
+            
+            setInitials(`${first[0]}${last[0]}`.toUpperCase());
+            
+            let formattedName = `${first[0].toUpperCase()}.`;
+            if (middle.length > 0) {
+              formattedName += ` ${middle.map((m: string) => m[0].toUpperCase() + '.').join(' ')}`;
+            }
+            formattedName += ` ${last.charAt(0).toUpperCase() + last.slice(1)}`;
+            
+            setDisplayName(formattedName);
           }
-          formattedName += ` ${last.charAt(0).toUpperCase() + last.slice(1)}`;
-          
-          setDisplayName(formattedName);
+        }
+
+        // Fetch client and wallet balance
+        const { data: clientData, error: clientErr } = await supabase
+          .from('clients')
+          .select('id')
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (clientErr) {
+          console.error("Error fetching client profile:", clientErr);
+          if (clientErr.code === 'PGRST205' || (clientErr.message && clientErr.message.includes('Could not find the table'))) {
+            toast.error("Database tables missing! Please run database_schema.sql in your Supabase SQL Editor.", {
+              id: 'db-missing-warning',
+              duration: 15000
+            });
+          }
+        } else if (clientData) {
+          const { data: walletData, error: walletErr } = await supabase
+            .from('wallets')
+            .select('balance')
+            .eq('client_id', clientData.id)
+            .maybeSingle();
+
+          if (walletErr) {
+            console.error("Error fetching wallet:", walletErr);
+          } else if (walletData) {
+            setWalletBalance(Number(walletData.balance));
+          }
         }
       }
     }
@@ -92,15 +124,10 @@ export default function ClientLayout({ children, params }: { children: React.Rea
     <div className="min-h-screen bg-[#f4f2ea] dark:bg-[#16181d] text-[#292F54] dark:text-[#ededdf]">
       <header className="sticky top-0 z-50 bg-white dark:bg-[#1e212b]">
         <div className="flex w-full items-center gap-6 border-b border-gray-200 dark:border-[#2a2e3d] px-4 py-3 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-lg bg-[#292F54] dark:bg-[#2b3358] text-base font-extrabold text-white">
-              M
-            </span>
-            <div>
-              <p className="text-[15px] font-bold leading-tight text-[#111827] dark:text-white">Move All</p>
-              <p className="text-xs font-medium text-[#64748b] dark:text-[#94a3b8]">Logistics</p>
-            </div>
-          </div>
+          <Link href={`/${client}`} className="flex items-center gap-3">
+            <img src="/moveall-for-light-theme.png" alt="Move All Logistics" className="h-10 w-auto object-contain dark:hidden" />
+            <img src="/moveall-for-dark-theme.png" alt="Move All Logistics" className="hidden dark:block h-10 w-auto object-contain" />
+          </Link>
 
           <div className="relative hidden flex-1 lg:block ml-2">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#94a3b8] dark:text-[#64748b]" />
@@ -118,6 +145,26 @@ export default function ClientLayout({ children, params }: { children: React.Rea
               variant="ghost"
               className="rounded-xl p-2.5 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d] hover:text-[#292F54] dark:hover:text-[#ededdf] [&_svg]:h-4 [&_svg]:w-4 h-auto w-auto min-w-0"
             />
+            <Link
+              href={`/${client}/billing`}
+              className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs font-bold transition-all hover:scale-105 ${
+                (walletBalance ?? 0) < 0 
+                  ? 'bg-rose-50 dark:bg-rose-950/20 border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-400 hover:bg-rose-100/50' 
+                  : (walletBalance ?? 0) < 500 
+                  ? 'bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-900/50 text-amber-700 dark:text-amber-400 hover:bg-amber-100/50' 
+                  : 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/50 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100/50'
+              }`}
+            >
+              <span className="relative flex h-1.5 w-1.5">
+                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                  (walletBalance ?? 0) < 0 ? 'bg-rose-400' : (walletBalance ?? 0) < 500 ? 'bg-amber-400' : 'bg-emerald-400'
+                }`}></span>
+                <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${
+                  (walletBalance ?? 0) < 0 ? 'bg-rose-500' : (walletBalance ?? 0) < 500 ? 'bg-amber-500' : 'bg-emerald-500'
+                }`}></span>
+              </span>
+              <span>₹{(walletBalance ?? 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+            </Link>
             <Link
               href={`/${client}/settings`}
               className="flex items-center gap-2 rounded-xl px-2.5 py-2 text-[#292F54] dark:text-[#ededdf] transition hover:bg-gray-50 dark:hover:bg-[#2a2e3d]"
